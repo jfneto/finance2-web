@@ -3,7 +3,7 @@
   import logo from '@assets/finance-logo.svg'
   import AppDrawer from '@lib/components/ui/layout/AppDrawer.svelte'
   import AppNavbar from '@lib/components/ui/layout/AppNavbar.svelte'
-  import { LayoutDashboard } from '@lucide/svelte'
+  import { Landmark, LayoutDashboard, WalletCards } from '@lucide/svelte'
   import { Router } from '@mateothegreat/svelte5-router'
 
   let collapsed = $state(false)
@@ -24,16 +24,9 @@
   <AppDrawer
     logo={drawerLogo}
     items={[
-      {
-        label: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutDashboard,
-      },
-      {
-        label: 'Tipo de Conta',
-        href: '/account-types',
-        icon: LayoutDashboard,
-      },
+      { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { label: 'Tipo de Conta', href: '/account-types', icon: WalletCards },
+      { label: 'Contas bancárias', href: '/accounts', icon: Landmark },
     ]}
     bind:collapsed
     {activePath}

@@ -1,4 +1,4 @@
-import LoginPage from '@features/auth/pages/LoginPage.svelte'
+import LoginPage from '@features/auth/LoginPage.svelte'
 import type { RouteConfig } from '@mateothegreat/svelte5-router'
 import MainLayout from '../layouts/MainLayout.svelte'
 

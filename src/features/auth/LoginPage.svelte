@@ -1,8 +1,8 @@
 <script lang="ts">
   import SvelteHeader from '@lib/components/ui/layout/SvelteHeader.svelte'
   import { _ } from 'svelte-i18n'
-  import LoginForm from '../components/LoginForm.svelte'
-  import { createLoginController } from '../login-controller.svelte'
+  import LoginForm from './components/LoginForm.svelte'
+  import { createLoginController } from './login-controller.svelte'
 
   const login = createLoginController()
 
