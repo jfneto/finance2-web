@@ -1,7 +1,7 @@
 import type { TableColumn } from '@lib/components/ui/table/types'
 import { formatDate } from '@lib/utils/formatDate'
 import { formatToCurrency } from '@lib/utils/numbers'
-import { CircleCheck, CircleX } from '@lucide/svelte'
+import { CircleCheck, CircleX, Pencil } from '@lucide/svelte'
 import { createQuery } from '@tanstack/svelte-query'
 import { get } from 'svelte/store'
 import { _ } from 'svelte-i18n'
@@ -14,6 +14,7 @@ const createAccountsController = () => {
   }))
 
   let search = $state('')
+  let showModal = $state(false)
 
   const columns = [
     {
@@ -36,22 +37,6 @@ const createAccountsController = () => {
       format: (value) => formatToCurrency(value as string),
       width: '150px',
     },
-    {
-      key: 'bank_account_number',
-      header: get(_)('account.fields.bankAccountNumber'),
-      width: '140px',
-    },
-    {
-      key: 'bank_branch_id',
-      header: get(_)('account.fields.branBranchId'),
-      width: '80px',
-    },
-    {
-      key: 'credit_card_number',
-      header: get(_)('account.fields.creditCardNumber'),
-      width: '220px',
-    },
-
     {
       key: 'active',
       header: get(_)('accountType.fields.active'),
@@ -80,6 +65,19 @@ const createAccountsController = () => {
       format: (value) => formatDate(value as string),
       width: '160px',
     },
+    {
+      type: 'actions',
+      header: get(_)('actions.header'),
+      width: '100px',
+      align: 'center',
+      actions: (row) => [
+        {
+          label: get(_)('actions.edit'),
+          icon: Pencil,
+          onClick: () => {},
+        },
+      ],
+    },
   ] satisfies TableColumn<Account>[]
 
   let filteredAccountTypes = $derived(
@@ -97,6 +95,12 @@ const createAccountsController = () => {
     },
     getFilteredAccounts() {
       return filteredAccountTypes
+    },
+    get showModal() {
+      return showModal
+    },
+    set showModal(value: boolean) {
+      showModal = value
     },
   }
 }

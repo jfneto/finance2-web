@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Search, X } from '@lucide/svelte'
+  import AppIconButton from '@lib/components/ui/buttons/AppIconButton.svelte'
+  import { PlusIcon, Search, X } from '@lucide/svelte'
   import type { Snippet } from 'svelte'
 
   interface Props {

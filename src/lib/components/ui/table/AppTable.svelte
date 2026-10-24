@@ -20,11 +20,27 @@
   const features = tableFeatures({})
 
   const tableColumns = $derived(
-    columns.map((column) => ({
-      accessorKey: column.key,
-      header: column.header,
-    })) as ColumnDef<typeof features, TData>[],
+    columns.map((column) => {
+      if (column.type === 'actions') {
+        return {
+          id: 'actions',
+          header: column.header,
+          cell: () => null,
+        }
+      }
+
+      return {
+        accessorKey: column.key,
+        header: column.header,
+      }
+    }) as ColumnDef<typeof features, TData>[],
   )
+  // const tableColumns = $derived(
+  //   columns.map((column) => ({
+  //     accessorKey: column.key,
+  //     header: column.header,
+  //   })) as ColumnDef<typeof features, TData>[],
+  // )
 
   const table = createTable({
     features,
@@ -35,12 +51,16 @@
       return data
     },
   })
+
+  const columnForHeader = (id: string) =>
+    columns.find((column) => (column.type === 'actions' ? id === 'actions' : column.key === id))
 </script>
 
 <div class="table-container" style:border-radius={borderRadius}>
   <table>
     <colgroup>
-      {#each columns as column (column.key)}
+      <!-- colgroup -->
+      {#each columns as column (column.type === 'actions' ? 'actions' : column.key)}
         <col style:width={column.width ?? 'auto'}>
       {/each}
     </colgroup>
@@ -48,7 +68,7 @@
       {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
         <tr>
           {#each headerGroup.headers as header (header.id)}
-            <th style:text-align={columns.find((item) => item.key === header.id)?.align ?? 'left'}>
+            <th style:text-align={columnForHeader(header.id)?.align ?? 'left'}>
               {#if !header.isPlaceholder}
                 <FlexRender {header} />
               {/if}
@@ -69,16 +89,37 @@
         {#each table.getRowModel().rows as row (row.id)}
           <tr>
             {#each row.getAllCells() as cell (cell.id)}
-              {@const column = columns.find((item) => item.key === cell.column.id)}
-              {@const value = row.original[cell.column.id as keyof TData]}
+              {@const column = columns.find((item) =>
+                item.type === 'actions' ? cell.column.id === 'actions' : item.key === cell.column.id,
+              )}
+
               <td style:text-align={column?.align ?? 'left'}>
-                {#if column?.booleanIcons && typeof value === 'boolean'}
-                  {@const iconConfig = value ? column.booleanIcons.true : column.booleanIcons.false}
-                  <iconConfig.component size={18} color={iconConfig.color} />
-                {:else if column?.format}
-                  {column.format(value, row.original)}
-                {:else}
-                  {String(value ?? '')}
+                {#if column?.type === 'actions'}
+                  <div class="table-actions">
+                    {#each column.actions(row.original) as action (action.label)}
+                      <button
+                        type="button"
+                        title={action.label}
+                        aria-label={action.label}
+                        class="table-action"
+                        style:color={action.color ?? 'inherit'}
+                        onclick={() => action.onClick(row.original)}
+                      >
+                        <action.icon size={18} />
+                      </button>
+                    {/each}
+                  </div>
+                {:else if column}
+                  {@const value = row.original[column.key]}
+
+                  {#if column.booleanIcons && typeof value === 'boolean'}
+                    {@const iconConfig = value ? column.booleanIcons.true : column.booleanIcons.false}
+                    <iconConfig.component size={18} color={iconConfig.color} />
+                  {:else if column.format}
+                    {column.format(value, row.original)}
+                  {:else}
+                    {String(value ?? '')}
+                  {/if}
                 {/if}
               </td>
             {/each}
@@ -134,5 +175,31 @@
     padding: 32px 16px;
     color: var(--color-text-muted);
     text-align: center;
+  }
+
+  .table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .table-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .table-action:hover {
+    opacity: 0.7;
+  }
+
+  .table-action:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 </style>

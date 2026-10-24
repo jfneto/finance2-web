@@ -1,5 +1,6 @@
 const account = {
   account: {
+    model: 'conta',
     fields: {
       id: 'id',
       accountTypeId: 'tipo da conta',
