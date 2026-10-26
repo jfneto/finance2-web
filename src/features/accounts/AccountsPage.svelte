@@ -21,6 +21,7 @@
   <AppIconButton
     icon={Plus}
     onclick={() => {
+      controller.selected = undefined
       controller.showModal = true
     }}
   />
@@ -36,4 +37,10 @@
   <AppTable data={controller.getFilteredAccounts() ?? []} columns={controller.columns} borderRadius="0 0 8px 8px" />
 </AppPaper>
 
-<AccountsForm showModal={controller.showModal} />
+<AccountsForm
+  showModal={controller.showModal}
+  onClose={() => {
+    controller.showModal = false
+  }}
+  selected={controller.selected}
+/>

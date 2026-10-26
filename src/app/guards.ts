@@ -5,13 +5,17 @@ const authGuard = async (_route: RouteResult): Promise<boolean> => {
   const publicRoutes = ['/', '/login']
   const currentPath = window.location.pathname
 
+  if (currentPath === '/') {
+    goto(authSession.isAuthenticated ? '/dashboard' : '/login')
+    return false
+  }
+
   if (publicRoutes.includes(currentPath)) {
     return true
   }
 
   if (!authSession.isAuthenticated) {
-    console.log(authSession.isAuthenticated)
-    // goto('/login')
+    goto('/login')
     return false
   }
 

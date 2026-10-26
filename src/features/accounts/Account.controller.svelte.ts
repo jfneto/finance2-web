@@ -15,6 +15,7 @@ const createAccountsController = () => {
 
   let search = $state('')
   let showModal = $state(false)
+  let selected = $state<Account | undefined>(undefined)
 
   const columns = [
     {
@@ -74,7 +75,10 @@ const createAccountsController = () => {
         {
           label: get(_)('actions.edit'),
           icon: Pencil,
-          onClick: () => {},
+          onClick: () => {
+            showModal = true
+            selected = row
+          },
         },
       ],
     },
@@ -101,6 +105,13 @@ const createAccountsController = () => {
     },
     set showModal(value: boolean) {
       showModal = value
+    },
+
+    get selected() {
+      return selected
+    },
+    set selected(value: Account | undefined) {
+      selected = value
     },
   }
 }
