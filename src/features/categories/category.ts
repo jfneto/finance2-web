@@ -1,4 +1,4 @@
-interface Owner {
+interface CategorySimple {
   id?: number
   description: string
 }
@@ -6,7 +6,7 @@ interface Owner {
 interface Category {
   id: number
   description: string
-  category?: Owner
+  category?: CategorySimple
   category_type: string
   level: string
   level_number: number
@@ -27,4 +27,4 @@ interface CategoryPayload {
   show_in_line_graph: boolean
 }
 
-export type { Category, CategoryPayload }
+export type { Category, CategoryPayload, CategorySimple }

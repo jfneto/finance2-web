@@ -1,7 +1,7 @@
 <script lang="ts">
   import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
   import AppCheckbox from '@lib/components/ui/inputs/AppCheckbox.svelte'
-  import FloatingField from '@lib/components/ui/inputs/FloatingField.svelte'
+  import AppInputField from '@lib/components/ui/inputs/AppInputField.svelte'
   import Brand from '@lib/components/ui/layout/Brand.svelte'
   import { _ } from 'svelte-i18n'
   import LoginCard from './LoginCard.svelte'
@@ -54,7 +54,7 @@
       }}
       novalidate
     >
-      <FloatingField
+      <AppInputField
         id="email"
         label={$_('auth.login.email')}
         type="email"
@@ -67,7 +67,7 @@
         required
       />
 
-      <FloatingField
+      <AppInputField
         id="password"
         type="password"
         placeholder="sua senha"

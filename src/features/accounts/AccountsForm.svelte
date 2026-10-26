@@ -1,8 +1,8 @@
 <script lang="ts">
   import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
   import AppCombo from '@lib/components/ui/inputs/AppCombo.svelte'
+  import AppInputField from '@lib/components/ui/inputs/AppInputField.svelte'
   import AppSwitch from '@lib/components/ui/inputs/AppSwitch.svelte'
-  import FloatingField from '@lib/components/ui/inputs/FloatingField.svelte'
   import AppContainer from '@lib/components/ui/layout/AppContainer.svelte'
   import AppContainerItem from '@lib/components/ui/layout/AppContainerItem.svelte'
   import AppModal from '@lib/components/ui/layout/AppModal.svelte'
@@ -51,11 +51,11 @@
 
       <!-- linha 2 -->
       <AppContainerItem size={9}>
-        <FloatingField bind:value={controller.name} id="account[name]" name="name" label={$_('account.fields.name')} />
+        <AppInputField bind:value={controller.name} id="account[name]" name="name" label={$_('account.fields.name')} />
       </AppContainerItem>
 
       <AppContainerItem size={3}>
-        <FloatingField
+        <AppInputField
           bind:value={controller.balance}
           id="account[balance]"
           name="balance"
@@ -65,7 +65,7 @@
 
       <!-- linha 3 -->
       <AppContainerItem size={3}>
-        <FloatingField
+        <AppInputField
           bind:value={controller.bankAgency}
           id="account[bank_branch_id]"
           name="bank_branch_id"
@@ -74,7 +74,7 @@
       </AppContainerItem>
 
       <AppContainerItem size={3}>
-        <FloatingField
+        <AppInputField
           bind:value={controller.bankAccount}
           id="account[bank_account_number]"
           name="balance"
@@ -83,7 +83,7 @@
       </AppContainerItem>
 
       <AppContainerItem size={6}>
-        <FloatingField
+        <AppInputField
           bind:value={controller.creditCard}
           id="account[credit_card_number]"
           name="credit_card_number"

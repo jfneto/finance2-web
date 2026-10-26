@@ -1,8 +1,8 @@
 <script lang="ts">
   import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
   import AppCombo from '@lib/components/ui/inputs/AppCombo.svelte'
+  import AppInputField from '@lib/components/ui/inputs/AppInputField.svelte'
   import AppSwitch from '@lib/components/ui/inputs/AppSwitch.svelte'
-  import FloatingField from '@lib/components/ui/inputs/FloatingField.svelte'
   import AppContainer from '@lib/components/ui/layout/AppContainer.svelte'
   import AppContainerItem from '@lib/components/ui/layout/AppContainerItem.svelte'
   import AppModal from '@lib/components/ui/layout/AppModal.svelte'
@@ -73,7 +73,7 @@
 
       <!-- linha 2 -->
       <AppContainerItem size={12}>
-        <FloatingField
+        <AppInputField
           bind:value={controller.description}
           id="category[description]"
           name="description"

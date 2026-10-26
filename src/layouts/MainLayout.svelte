@@ -5,7 +5,7 @@
   import AppDrawer from '@lib/components/ui/layout/AppDrawer/AppDrawer.svelte'
   import type { MenuItem } from '@lib/components/ui/layout/AppDrawer/MenuItem'
   import AppNavbar from '@lib/components/ui/layout/AppNavbar.svelte'
-  import { Landmark, LayoutDashboard, ListSortDescending, LogOut, WalletCards } from '@lucide/svelte'
+  import { CreditCardReader, Landmark, LayoutDashboard, ListSortDescending, LogOut, WalletCards } from '@lucide/svelte'
   import { Router } from '@mateothegreat/svelte5-router'
 
   let collapsed = $state(false)
@@ -16,6 +16,7 @@
     { label: 'Tipo de Conta', href: '/account-types', icon: WalletCards, group: 'Cadastros' },
     { label: 'Contas bancárias', href: '/accounts', icon: Landmark, group: 'Cadastros' },
     { label: 'Categorias', href: '/categories', icon: ListSortDescending, group: 'Cadastros' },
+    { label: 'Formas de Pagamento', href: '/payment-forms', icon: CreditCardReader, group: 'Cadastros' },
     // { label: 'Transações', href: '/transactions', icon: Receipt, group: 'Financeiro' },
     // { label: 'Visão geral', href: '/reports', icon: ChartNoAxesCombined, group: 'Relatórios' },
     // { label: 'Configurações', href: '/settings', icon: Settings },

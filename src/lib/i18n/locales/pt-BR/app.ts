@@ -9,6 +9,7 @@ const app = {
     create: 'criar',
     save: 'salvar',
     cancel: 'cancelar',
+    searchByDescription: 'Pesquisar por descrição...',
   },
 }
 

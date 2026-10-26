@@ -12,4 +12,9 @@ interface Account {
   credit_card_number?: string
 }
 
-export type { Account }
+interface AccountSimple {
+  id: number
+  name: string
+}
+
+export type { Account, AccountSimple }
