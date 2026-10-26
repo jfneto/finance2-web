@@ -5,8 +5,8 @@
   import AppTable from '@lib/components/ui/table/AppTable.svelte'
   import { Plus } from '@lucide/svelte'
   import { _ } from 'svelte-i18n'
-  import { createAccountsController } from './Account.controller.svelte'
   import AccountsForm from './AccountsForm.svelte'
+  import { createAccountsController } from './AccountsPage.controller.svelte'
 
   const controller = createAccountsController()
 </script>

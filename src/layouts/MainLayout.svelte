@@ -1,18 +1,29 @@
 <script lang="ts">
   import { protectedRoutes } from '@app/protected-router'
   import logo from '@assets/finance-logo.svg'
-  import AppDrawer from '@lib/components/ui/layout/AppDrawer.svelte'
+  import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
+  import AppDrawer from '@lib/components/ui/layout/AppDrawer/AppDrawer.svelte'
+  import type { MenuItem } from '@lib/components/ui/layout/AppDrawer/MenuItem'
   import AppNavbar from '@lib/components/ui/layout/AppNavbar.svelte'
-  import { Landmark, LayoutDashboard, WalletCards } from '@lucide/svelte'
+  import { Landmark, LayoutDashboard, LogOut, WalletCards } from '@lucide/svelte'
   import { Router } from '@mateothegreat/svelte5-router'
 
   let collapsed = $state(false)
   let activePath = $state(typeof window !== 'undefined' ? window.location.pathname : '/dashboard')
+
+  const items: MenuItem[] = [
+    { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { label: 'Tipo de Conta', href: '/account-types', icon: WalletCards, group: 'Cadastros' },
+    { label: 'Contas bancárias', href: '/accounts', icon: Landmark, group: 'Cadastros' },
+    // { label: 'Transações', href: '/transactions', icon: Receipt, group: 'Financeiro' },
+    // { label: 'Visão geral', href: '/reports', icon: ChartNoAxesCombined, group: 'Relatórios' },
+    // { label: 'Configurações', href: '/settings', icon: Settings },
+  ]
 </script>
 
 {#snippet drawerFooter()}
   <div class="user-info">
-    <button type="button">Sair</button>
+    <AppButton variant="ghost" onclick={() => console.log('Sair')} fullWidth={true}><LogOut /></AppButton>
   </div>
 {/snippet}
 
@@ -23,11 +34,7 @@
 <div class="app-layout">
   <AppDrawer
     logo={drawerLogo}
-    items={[
-      { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-      { label: 'Tipo de Conta', href: '/account-types', icon: WalletCards },
-      { label: 'Contas bancárias', href: '/accounts', icon: Landmark },
-    ]}
+    {items}
     bind:collapsed
     {activePath}
     onNavigate={(href) => {

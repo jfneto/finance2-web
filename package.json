@@ -28,6 +28,7 @@
     "axios": "^1.20.0",
     "bits-ui": "^2.20.2",
     "lucide-svelte": "^1.0.1",
-    "svelte-i18n": "^4.0.1"
+    "svelte-i18n": "^4.0.1",
+    "svelte-sonner": "^1.2.1"
   }
 }

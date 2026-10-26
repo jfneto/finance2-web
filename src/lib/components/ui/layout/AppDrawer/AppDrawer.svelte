@@ -1,11 +1,6 @@
 <script lang="ts">
-  import type { Component, Snippet } from 'svelte'
-
-  interface MenuItem {
-    label: string
-    href: string
-    icon: Component
-  }
+  import type { Snippet } from 'svelte'
+  import type { MenuItem } from './MenuItem'
 
   interface Props {
     items: MenuItem[]
@@ -23,6 +18,25 @@
     collapsed = !collapsed
     onToggle?.(collapsed)
   }
+
+  const groupedItems = $derived.by(() => {
+    const groups = new Map<string, MenuItem[]>()
+
+    for (const item of items) {
+      const group = item.group ?? ''
+
+      if (!groups.has(group)) {
+        groups.set(group, [])
+      }
+
+      groups.get(group)?.push(item)
+    }
+
+    return Array.from(groups, ([group, items]) => ({
+      group,
+      items,
+    }))
+  })
 </script>
 
 <aside class="drawer" class:collapsed>
@@ -53,6 +67,37 @@
   </div>
 
   <nav class="navigation" aria-label="Menu principal">
+    {#each groupedItems as group (group.group)}
+      <div class="menu-group">
+        {#if group.group && !collapsed}
+          <h2 class="group-title">{group.group}</h2>
+        {/if}
+
+        {#each group.items as item (item.href)}
+          {@const Icon = item.icon}
+
+          <button
+            class="menu-item"
+            class:active={activePath === item.href}
+            type="button"
+            aria-current={activePath === item.href ? 'page' : undefined}
+            aria-label={collapsed ? item.label : undefined}
+            title={collapsed ? item.label : undefined}
+            onclick={() => onNavigate?.(item.href)}
+          >
+            <span class="icon">
+              <Icon size={20} />
+            </span>
+
+            {#if !collapsed}
+              <span class="label">{item.label}</span>
+            {/if}
+          </button>
+        {/each}
+      </div>
+    {/each}
+  </nav>
+  <!-- <nav class="navigation" aria-label="Menu principal">
     {#each items as item (item.href)}
       {@const Icon = item.icon}
       <button
@@ -73,7 +118,7 @@
         {/if}
       </button>
     {/each}
-  </nav>
+  </nav> -->
 
   {#if footer}
     <div class="footer">
@@ -231,5 +276,31 @@
     .drawer {
       transition: none;
     }
+  }
+
+  .menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .group-title {
+    margin: 16px 12px 4px;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .menu-group:first-child .group-title {
+    margin-top: 4px;
+  }
+
+  .menu-group:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
   }
 </style>

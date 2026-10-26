@@ -25,9 +25,13 @@
 
 <style>
   .switch-wrapper {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    width: fit-content;
+    height: fit-content;
+    margin-inline: auto;
     cursor: pointer;
   }
 

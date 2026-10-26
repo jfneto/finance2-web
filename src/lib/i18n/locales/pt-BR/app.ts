@@ -7,6 +7,8 @@ const app = {
     edit: 'editar',
     delete: 'deletar',
     create: 'criar',
+    save: 'salvar',
+    cancel: 'cancelar',
   },
 }
 

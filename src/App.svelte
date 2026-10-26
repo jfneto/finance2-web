@@ -2,6 +2,7 @@
   import { routes } from '@app/router'
   import { Router } from '@mateothegreat/svelte5-router'
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
+  import { Toaster } from 'svelte-sonner'
   import { authGuard } from './app/guards'
 
   const queryClient = new QueryClient({
@@ -15,6 +16,8 @@
   })
 </script>
 
+<Toaster position="top-right" richColors />
+
 <QueryClientProvider client={queryClient}>
   <Router
     {routes}
@@ -23,3 +26,12 @@
     }}
   />
 </QueryClientProvider>
+
+<!--
+import { toast } from 'svelte-sonner'
+
+toast.success('Conta criada com sucesso')
+toast.error('Erro ao salvar a conta')
+toast.warning('Verifique os campos do formulário')
+toast.info('Operação em andamento')
+-->
