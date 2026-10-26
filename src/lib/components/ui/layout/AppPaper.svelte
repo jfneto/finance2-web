@@ -71,6 +71,7 @@
     box-sizing: border-box;
     width: auto;
     max-height: 90vh;
+    overflow-y: auto;
     margin-left: 10px;
     margin-right: 10px;
     background: var(--color-surface);
@@ -78,6 +79,17 @@
     border-radius: var(--radius-sm, 4px);
     box-shadow: 0 2px 6px rgb(0 0 0 / 8%);
   }
+  /*.paper {
+    box-sizing: border-box;
+    width: auto;
+    max-height: 90vh;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm, 4px);
+    box-shadow: 0 2px 6px rgb(0 0 0 / 8%);
+  }*/
 
   .paper-header {
     display: flex;

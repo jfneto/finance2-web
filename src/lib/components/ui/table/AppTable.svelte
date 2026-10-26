@@ -8,6 +8,7 @@
     columns: TableColumn<TData>[]
     emptyMessage?: string
     borderRadius?: string
+    pageSize?: number
   }
 
   let {
@@ -15,7 +16,20 @@
     columns,
     emptyMessage = 'Nenhum registro encontrado.',
     borderRadius = 'var(--radius-sm, 4px)',
+    pageSize = 15,
   }: Props = $props()
+
+  let pageIndex = $state(0)
+
+  const pageCount = $derived(Math.ceil(data.length / pageSize))
+  // const paginatedData = $derived(data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
+  let paginatedData = $derived.by(() => data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
+
+  const getValue = (object: unknown, path: string): unknown =>
+    path.split('.').reduce<unknown>((value, key) => {
+      if (value === null || typeof value !== 'object') return undefined
+      return (value as Record<string, unknown>)[key]
+    }, object)
 
   const features = tableFeatures({})
 
@@ -30,40 +44,54 @@
       }
 
       return {
-        accessorKey: column.key,
+        id: String(column.key),
+        accessorFn: (row: TData) => getValue(row, String(column.key)),
         header: column.header,
       }
     }) as ColumnDef<typeof features, TData>[],
   )
-  // const tableColumns = $derived(
-  //   columns.map((column) => ({
-  //     accessorKey: column.key,
-  //     header: column.header,
-  //   })) as ColumnDef<typeof features, TData>[],
-  // )
 
-  const table = createTable({
-    features,
-    get columns() {
-      return tableColumns
-    },
-    get data() {
-      return data
-    },
-  })
+  const table = $derived(
+    createTable({
+      features,
+      get columns() {
+        return tableColumns
+      },
+      get data() {
+        return paginatedData
+      },
+    }),
+  )
 
   const columnForHeader = (id: string) =>
-    columns.find((column) => (column.type === 'actions' ? id === 'actions' : column.key === id))
+    columns.find((column) => (column.type === 'actions' ? id === 'actions' : String(column.key) === id))
+
+  const firstItem = $derived(data.length === 0 ? 0 : pageIndex * pageSize + 1)
+  const lastItem = $derived(Math.min((pageIndex + 1) * pageSize, data.length))
+
+  const goToPage = (index: number) => {
+    pageIndex = Math.max(0, Math.min(index, pageCount - 1))
+  }
+
+  $effect(() => {
+    // Volta para a última página válida quando a quantidade de dados diminui.
+    if (pageIndex >= pageCount && pageCount > 0) {
+      pageIndex = pageCount - 1
+    } else if (pageCount === 0 && pageIndex !== 0) {
+      pageIndex = 0
+    }
+  })
 </script>
 
 <div class="table-container" style:border-radius={borderRadius}>
+  <!-- <p>Registros: {data.length} | Nesta página: {paginatedData.length} | Página: {pageIndex + 1}</p> -->
   <table>
     <colgroup>
-      <!-- colgroup -->
-      {#each columns as column (column.type === 'actions' ? 'actions' : column.key)}
+      {#each columns as column (column.type === 'actions' ? 'actions' : String(column.key))}
         <col style:width={column.width ?? 'auto'}>
       {/each}
     </colgroup>
+
     <thead>
       {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
         <tr>
@@ -79,44 +107,40 @@
     </thead>
 
     <tbody>
-      {#if table.getRowModel().rows.length === 0}
+      {#if data.length === 0}
         <tr>
           <td class="empty" colspan={columns.length}>
             {emptyMessage}
           </td>
         </tr>
       {:else}
-        {#each table.getRowModel().rows as row (row.id)}
+        {#each paginatedData as item, index (index)}
           <tr>
-            {#each row.getAllCells() as cell (cell.id)}
-              {@const column = columns.find((item) =>
-                item.type === 'actions' ? cell.column.id === 'actions' : item.key === cell.column.id,
-              )}
-
-              <td style:text-align={column?.align ?? 'left'}>
-                {#if column?.type === 'actions'}
+            {#each columns as column, columnIndex (column.type === 'actions' ? 'actions' : String(column.key))}
+              <td style:text-align={column.align ?? 'left'}>
+                {#if column.type === 'actions'}
                   <div class="table-actions">
-                    {#each column.actions(row.original) as action (action.label)}
+                    {#each column.actions(item) as action (action.label)}
                       <button
                         type="button"
                         title={action.label}
                         aria-label={action.label}
                         class="table-action"
                         style:color={action.color ?? 'inherit'}
-                        onclick={() => action.onClick(row.original)}
+                        onclick={() => action.onClick(item)}
                       >
                         <action.icon size={18} />
                       </button>
                     {/each}
                   </div>
-                {:else if column}
-                  {@const value = row.original[column.key]}
+                {:else}
+                  {@const value = getValue(item, String(column.key))}
 
                   {#if column.booleanIcons && typeof value === 'boolean'}
                     {@const iconConfig = value ? column.booleanIcons.true : column.booleanIcons.false}
                     <iconConfig.component size={18} color={iconConfig.color} />
                   {:else if column.format}
-                    {column.format(value, row.original)}
+                    {column.format(value, item)}
                   {:else}
                     {String(value ?? '')}
                   {/if}
@@ -130,13 +154,47 @@
   </table>
 </div>
 
+{#if data.length > pageSize}
+  <div class="pagination">
+    <span class="pagination-info"> Exibindo {firstItem}–{lastItem} de {data.length} registros </span>
+
+    <div class="pagination-controls">
+      <button
+        type="button"
+        disabled={pageIndex === 0}
+        onclick={() => goToPage(pageIndex - 1)}
+        aria-label="Página anterior"
+      >
+        Anterior
+      </button>
+
+      <span class="page-indicator"> Página {pageIndex + 1} de {pageCount} </span>
+
+      <button
+        type="button"
+        disabled={pageIndex >= pageCount - 1}
+        onclick={() => goToPage(pageIndex + 1)}
+        aria-label="Próxima página"
+      >
+        Próxima
+      </button>
+    </div>
+  </div>
+{/if}
+
 <style>
   .table-container {
     width: 100%;
     overflow-x: auto;
     border: 1px solid var(--color-border);
-    /*border-radius: var(--radius-sm, 4px);*/
+    box-sizing: border-box;
+    height: auto;
   }
+  /*.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+  }*/
 
   table {
     width: 100%;
@@ -163,9 +221,9 @@
     color: var(--color-text);
   }
 
-  tbody tr:last-child td {
+  /*tbody tr:last-child td {
     border-bottom: 0;
-  }
+  }*/
 
   tbody tr:hover {
     background: var(--color-input);
@@ -198,8 +256,44 @@
     opacity: 0.7;
   }
 
-  .table-action:focus-visible {
+  .table-action:focus-visible,
+  .pagination button:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pagination button {
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm, 4px);
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .page-indicator {
+    white-space: nowrap;
   }
 </style>

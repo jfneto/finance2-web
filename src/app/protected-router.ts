@@ -1,5 +1,6 @@
 import AccountTypesPage from '@features/account-types/AccountTypesPage.svelte'
 import AccountsPage from '@features/accounts/AccountsPage.svelte'
+import CategoriesPage from '@features/categories/CategoriesPage.svelte'
 import Dashboard from '@features/dashboard/pages/Dashboard.svelte'
 
 import type { RouteConfig } from '@mateothegreat/svelte5-router'
@@ -16,6 +17,10 @@ const protectedRoutes: RouteConfig[] = [
   {
     path: '/accounts',
     component: AccountsPage,
+  },
+  {
+    path: '/categories',
+    component: CategoriesPage,
   },
 ]
 
