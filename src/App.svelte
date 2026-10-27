@@ -3,7 +3,6 @@
   import ConfirmDialogHost from '@lib/components/ui/dialogs/ConfirmDialogHost.svelte'
   import { Router } from '@mateothegreat/svelte5-router'
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
-  import { onMount } from 'svelte'
   import { Toaster } from 'svelte-sonner'
   import { authGuard } from './app/guards'
 
@@ -16,42 +15,9 @@
       },
     },
   })
-
-  onMount(() => {
-    const toastLayer = document.querySelector<HTMLElement>('#toast-top-layer')
-
-    if (!toastLayer) return
-
-    toastLayer.showPopover()
-
-    const observer = new MutationObserver((mutations) => {
-      const dialogOpened = mutations.some(
-        (mutation) =>
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'open' &&
-          mutation.target instanceof HTMLDialogElement &&
-          mutation.target.open,
-      )
-
-      if (dialogOpened && toastLayer.matches(':popover-open')) {
-        toastLayer.hidePopover()
-        toastLayer.showPopover()
-      }
-    })
-
-    observer.observe(document.body, {
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['open'],
-    })
-
-    return () => observer.disconnect()
-  })
 </script>
 
-<div id="toast-top-layer" popover="manual">
-  <Toaster position="top-right" richColors />
-</div>
+<Toaster position="top-right" richColors />
 
 <ConfirmDialogHost />
 
