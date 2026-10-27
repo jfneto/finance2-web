@@ -23,7 +23,66 @@
 
   const pageCount = $derived(Math.ceil(data.length / pageSize))
   // const paginatedData = $derived(data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
-  let paginatedData = $derived.by(() => data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
+  // let paginatedData = $derived.by(() => data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
+  type SortDirection = 'asc' | 'desc'
+
+  interface SortState {
+    key: string
+    direction: SortDirection
+  }
+
+  let sortState = $state<SortState | null>(null)
+
+  const sortedData = $derived.by(() => {
+    if (!sortState) return data
+
+    const column = columns.find((column) => column.type !== 'actions' && String(column.key) === sortState.key)
+
+    if (!column || column.sortable !== true) return data
+
+    const { key, direction } = sortState
+    const multiplier = direction === 'asc' ? 1 : -1
+
+    return [...data].sort((a, b) => {
+      const aValue = getValue(a, key)
+      const bValue = getValue(b, key)
+
+      if (aValue == null && bValue == null) return 0
+      if (aValue == null) return 1
+      if (bValue == null) return -1
+
+      let result: number
+
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        result = aValue - bValue
+      } else if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
+        result = Number(aValue) - Number(bValue)
+      } else if (aValue instanceof Date && bValue instanceof Date) {
+        result = aValue.getTime() - bValue.getTime()
+      } else {
+        result = String(aValue).localeCompare(String(bValue), undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
+      }
+
+      return result * multiplier
+    })
+  })
+
+  const paginatedData = $derived(sortedData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize))
+
+  const toggleSort = (key: string) => {
+    if (sortState?.key !== key) {
+      sortState = { key, direction: 'asc' }
+    } else if (sortState.direction === 'asc') {
+      sortState = { key, direction: 'desc' }
+    } else {
+      sortState = null
+    }
+
+    pageIndex = 0
+  }
 
   const getValue = (object: unknown, path: string): unknown =>
     path.split('.').reduce<unknown>((value, key) => {
@@ -98,9 +157,30 @@
           {#each headerGroup.headers as header (header.id)}
             <th style:text-align={columnForHeader(header.id)?.align ?? 'left'}>
               {#if !header.isPlaceholder}
-                <FlexRender {header} />
+                {@const column = columnForHeader(header.id)}
+
+                {#if column && column.type !== 'actions' && column.sortable}
+                  <button
+                    type="button"
+                    class="sort-button"
+                    onclick={() => toggleSort(String(column.key))}
+                    aria-label={`Ordenar por ${column.header}`}
+                  >
+                    <FlexRender {header} />
+                    <span class="sort-indicator" aria-hidden="true">
+                      {sortState?.key === String(column.key) ? (sortState.direction === 'asc' ? '↑' : '↓') : '↕'}
+                    </span>
+                  </button>
+                {:else}
+                  <FlexRender {header} />
+                {/if}
               {/if}
             </th>
+            <!-- <th style:text-align={columnForHeader(header.id)?.align ?? 'left'}>
+              {#if !header.isPlaceholder}
+                <FlexRender {header} />
+              {/if}
+            </th> -->
           {/each}
         </tr>
       {/each}
@@ -202,6 +282,24 @@
     border-collapse: collapse;
     text-align: left;
     font-size: 0.875rem;
+  }
+
+  .sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+
+  .sort-indicator {
+    opacity: 0.65;
   }
 
   th,

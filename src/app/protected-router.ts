@@ -4,6 +4,7 @@ import CategoriesPage from '@features/categories/CategoriesPage.svelte'
 import Dashboard from '@features/dashboard/pages/Dashboard.svelte'
 import PaymentFormsPage from '@features/payment-forms/PaymentFormsPage.svelte'
 import PeoplePage from '@features/people/PeoplePage.svelte'
+import PeriodPage from '@features/periods/PeriodPage.svelte'
 import type { RouteConfig } from '@mateothegreat/svelte5-router'
 import { StaticRoutes } from './static-routes'
 
@@ -31,6 +32,10 @@ const protectedRoutes: RouteConfig[] = [
   {
     path: StaticRoutes.people,
     component: PeoplePage,
+  },
+  {
+    path: StaticRoutes.periods,
+    component: PeriodPage,
   },
 ]
 

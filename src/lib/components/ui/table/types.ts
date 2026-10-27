@@ -33,6 +33,7 @@ interface DataColumn<T extends object> {
   header: string
   width?: string
   align?: 'left' | 'center' | 'right'
+  sortable?: boolean
   format?: (value: unknown, row: T) => string
   booleanIcons?: { true: BooleanIcon; false: BooleanIcon }
 }

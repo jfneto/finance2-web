@@ -25,12 +25,14 @@ const createPeopleController = () => {
     {
       key: 'name',
       header: get(_)('person.fields.name'),
+      sortable: true,
     },
     {
       key: 'person_type',
       header: get(_)('person.fields.personType'),
       format: (value) => get(_)(`person.personType.${value}`),
       width: '130px',
+      sortable: true,
     },
     {
       key: 'created_at',

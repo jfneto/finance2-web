@@ -29,41 +29,43 @@
       label: $_('menus.accountType'),
       href: StaticRoutes.accountTypes,
       icon: WalletCards,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
     {
       label: $_('menus.account'),
       href: StaticRoutes.accounts,
       icon: Landmark,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
     {
       label: $_('menus.categories'),
       href: StaticRoutes.categories,
       icon: ListSortDescending,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
     {
       label: $_('menus.paymentForms'),
       href: StaticRoutes.paymentForms,
       icon: CreditCardReader,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
     {
       label: $_('menus.periods'),
       href: StaticRoutes.periods,
       icon: Calendar,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
     {
       label: $_('menus.people'),
       href: StaticRoutes.people,
       icon: UserGroup,
-      group: $_('menus.group.registration'),
+      group: $_('menus.groups.registration'),
     },
   ]
 
   const items: MenuItem[] = [...fixed, ...registration]
+
+  console.log(items)
 </script>
 
 {#snippet drawerFooter()}

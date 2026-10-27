@@ -1,5 +1,6 @@
 <script lang="ts">
   import { routes } from '@app/router'
+  import ConfirmDialogHost from '@lib/components/ui/dialogs/ConfirmDialogHost.svelte'
   import { Router } from '@mateothegreat/svelte5-router'
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
   import { Toaster } from 'svelte-sonner'
@@ -17,6 +18,7 @@
 </script>
 
 <Toaster position="top-right" richColors />
+<ConfirmDialogHost />
 
 <QueryClientProvider client={queryClient}>
   <Router

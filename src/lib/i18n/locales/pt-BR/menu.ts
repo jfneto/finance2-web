@@ -1,5 +1,8 @@
 const menu = {
   menus: {
+    groups: {
+      registration: 'cadastro',
+    },
     dashboard: 'Dashboard',
     accountType: 'Tipo de Conta',
     account: 'Contas bancárias',
@@ -7,9 +10,6 @@ const menu = {
     paymentForms: 'Formas de pagamento',
     periods: 'Periodos',
     people: 'Pessoas',
-  },
-  groups: {
-    registration: 'cadastro',
   },
 }
 
