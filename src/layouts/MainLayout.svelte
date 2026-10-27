@@ -8,6 +8,7 @@
   import AppNavbar from '@lib/components/ui/layout/AppNavbar.svelte'
   import {
     Calendar,
+    CreditCard,
     CreditCardReader,
     Landmark,
     LayoutDashboard,
@@ -69,6 +70,12 @@
       label: $_('menus.moviments'),
       href: StaticRoutes.moviments,
       icon: SquareActivity,
+      group: $_('menus.groups.routines'),
+    },
+    {
+      label: $_('menus.creditcards'),
+      href: StaticRoutes.creditcards,
+      icon: CreditCard,
       group: $_('menus.groups.routines'),
     },
   ]

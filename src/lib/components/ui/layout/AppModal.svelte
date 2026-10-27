@@ -9,9 +9,18 @@
     footer?: Snippet
     width?: string
     onClose: () => void
+    closeOnBackdropClick?: boolean
   }
 
-  let { open = $bindable(false), title, children, footer, width = '480px', onClose }: Props = $props()
+  let {
+    open = $bindable(false),
+    title,
+    children,
+    footer,
+    width = '480px',
+    onClose,
+    closeOnBackdropClick = false,
+  }: Props = $props()
 
   let dialogElement: HTMLDialogElement
 
@@ -29,7 +38,7 @@
   }
 
   const handleBackdropClick = (event: MouseEvent) => {
-    if (event.target === dialogElement) {
+    if (event.target === dialogElement && closeOnBackdropClick) {
       handleClose()
     }
   }

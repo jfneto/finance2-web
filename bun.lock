@@ -4,6 +4,7 @@
     "": {
       "name": "finance2-web",
       "dependencies": {
+        "@internationalized/date": "^3.12.4",
         "@lucide/svelte": "^1.61.0",
         "@mateothegreat/svelte5-router": "^2.16.19",
         "@tanstack/svelte-query": "^6.3.5",

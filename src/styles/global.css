@@ -39,3 +39,20 @@ button:disabled {
   outline: 2px solid #818cf8;
   outline-offset: 3px;
 }
+
+#toast-top-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+#toast-top-layer [data-sonner-toaster] {
+  pointer-events: auto;
+}

@@ -19,9 +19,16 @@ const moviment = {
       createdAt: 'criado em',
       updatedAt: 'atualizado em',
     },
+    credDebType: {
+      credit: 'Crédito',
+      debit: 'Débito',
+    },
     layout: {
       index: {
         title: 'Movimentos',
+      },
+      creditcard: {
+        title: 'Movimentos do Cartão de Crédito',
       },
     },
     messages: {

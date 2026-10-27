@@ -12,7 +12,7 @@ const menu = {
     periods: 'Periodos',
     people: 'Pessoas',
     moviments: 'Movimentos',
-    creditcard: 'Cartão de Crédito',
+    creditcards: 'Cartão de Crédito',
   },
 }
 

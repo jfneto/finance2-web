@@ -7,6 +7,7 @@ const StaticRoutes = {
   periods: '/periods',
   people: '/people',
   moviments: '/moviments',
+  creditcards: '/creditcard',
 }
 
 export { StaticRoutes }
