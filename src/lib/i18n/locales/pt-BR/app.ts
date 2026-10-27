@@ -10,6 +10,7 @@ const app = {
     save: 'salvar',
     cancel: 'cancelar',
     searchByDescription: 'Pesquisar por descrição...',
+    search: 'Pesquisa...',
   },
 }
 

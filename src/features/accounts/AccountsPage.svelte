@@ -30,7 +30,7 @@
 <AppPaper
   title={$_('account.layout.index.title')}
   searchable
-  searchPlaceholder="Pesquisar por descrição..."
+  searchPlaceholder={$_('actions.searchByDescription')}
   bind:searchValue={controller.search}
   actions={addAction}
 >

@@ -17,7 +17,7 @@
 <AppPaper
   title={$_('accountType.layout.index.title')}
   searchable
-  searchPlaceholder="Pesquisar por descrição..."
+  searchPlaceholder={$_('actions.searchByDescription')}
   bind:searchValue={controller.search}
 >
   <AppTable data={controller.getFilteredAccountTypes() ?? []} columns={controller.columns} borderRadius="0 0 8px 8px" />

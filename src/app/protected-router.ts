@@ -3,29 +3,34 @@ import AccountsPage from '@features/accounts/AccountsPage.svelte'
 import CategoriesPage from '@features/categories/CategoriesPage.svelte'
 import Dashboard from '@features/dashboard/pages/Dashboard.svelte'
 import PaymentFormsPage from '@features/payment-forms/PaymentFormsPage.svelte'
-
+import PeoplePage from '@features/people/PeoplePage.svelte'
 import type { RouteConfig } from '@mateothegreat/svelte5-router'
+import { StaticRoutes } from './static-routes'
 
 const protectedRoutes: RouteConfig[] = [
   {
-    path: '/dashboard',
+    path: StaticRoutes.dashboard,
     component: Dashboard,
   },
   {
-    path: '/account-types',
+    path: StaticRoutes.accountTypes,
     component: AccountTypesPage,
   },
   {
-    path: '/accounts',
+    path: StaticRoutes.accounts,
     component: AccountsPage,
   },
   {
-    path: '/categories',
+    path: StaticRoutes.categories,
     component: CategoriesPage,
   },
   {
-    path: '/payment-forms',
+    path: StaticRoutes.paymentForms,
     component: PaymentFormsPage,
+  },
+  {
+    path: StaticRoutes.people,
+    component: PeoplePage,
   },
 ]
 

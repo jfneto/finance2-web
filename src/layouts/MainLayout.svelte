@@ -1,26 +1,69 @@
 <script lang="ts">
   import { protectedRoutes } from '@app/protected-router'
+  import { StaticRoutes } from '@app/static-routes'
   import logo from '@assets/finance-logo.svg'
   import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
   import AppDrawer from '@lib/components/ui/layout/AppDrawer/AppDrawer.svelte'
   import type { MenuItem } from '@lib/components/ui/layout/AppDrawer/MenuItem'
   import AppNavbar from '@lib/components/ui/layout/AppNavbar.svelte'
-  import { CreditCardReader, Landmark, LayoutDashboard, ListSortDescending, LogOut, WalletCards } from '@lucide/svelte'
+  import {
+    Calendar,
+    CreditCardReader,
+    Landmark,
+    LayoutDashboard,
+    ListSortDescending,
+    LogOut,
+    UserGroup,
+    WalletCards,
+  } from '@lucide/svelte'
   import { Router } from '@mateothegreat/svelte5-router'
+  import { _ } from 'svelte-i18n'
 
   let collapsed = $state(false)
-  let activePath = $state(typeof window !== 'undefined' ? window.location.pathname : '/dashboard')
+  let activePath = $state(typeof window !== 'undefined' ? window.location.pathname : StaticRoutes.dashboard)
 
-  const items: MenuItem[] = [
-    { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { label: 'Tipo de Conta', href: '/account-types', icon: WalletCards, group: 'Cadastros' },
-    { label: 'Contas bancárias', href: '/accounts', icon: Landmark, group: 'Cadastros' },
-    { label: 'Categorias', href: '/categories', icon: ListSortDescending, group: 'Cadastros' },
-    { label: 'Formas de Pagamento', href: '/payment-forms', icon: CreditCardReader, group: 'Cadastros' },
-    // { label: 'Transações', href: '/transactions', icon: Receipt, group: 'Financeiro' },
-    // { label: 'Visão geral', href: '/reports', icon: ChartNoAxesCombined, group: 'Relatórios' },
-    // { label: 'Configurações', href: '/settings', icon: Settings },
+  const fixed: MenuItem[] = [{ label: $_('menus.dashboard'), href: StaticRoutes.dashboard, icon: LayoutDashboard }]
+
+  const registration: MenuItem[] = [
+    {
+      label: $_('menus.accountType'),
+      href: StaticRoutes.accountTypes,
+      icon: WalletCards,
+      group: $_('menus.group.registration'),
+    },
+    {
+      label: $_('menus.account'),
+      href: StaticRoutes.accounts,
+      icon: Landmark,
+      group: $_('menus.group.registration'),
+    },
+    {
+      label: $_('menus.categories'),
+      href: StaticRoutes.categories,
+      icon: ListSortDescending,
+      group: $_('menus.group.registration'),
+    },
+    {
+      label: $_('menus.paymentForms'),
+      href: StaticRoutes.paymentForms,
+      icon: CreditCardReader,
+      group: $_('menus.group.registration'),
+    },
+    {
+      label: $_('menus.periods'),
+      href: StaticRoutes.periods,
+      icon: Calendar,
+      group: $_('menus.group.registration'),
+    },
+    {
+      label: $_('menus.people'),
+      href: StaticRoutes.people,
+      icon: UserGroup,
+      group: $_('menus.group.registration'),
+    },
   ]
+
+  const items: MenuItem[] = [...fixed, ...registration]
 </script>
 
 {#snippet drawerFooter()}

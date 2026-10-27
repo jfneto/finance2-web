@@ -81,7 +81,7 @@
         />
       </AppContainerItem>
 
-      <AppContainerItem size={12}>
+      <AppContainerItem size={12} align="right">
         <AppButton type="submit">
           {$_('actions.save')}
         </AppButton>

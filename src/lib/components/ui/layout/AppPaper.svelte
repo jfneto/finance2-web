@@ -1,7 +1,8 @@
 <script lang="ts">
-  import AppIconButton from '@lib/components/ui/buttons/AppIconButton.svelte'
-  import { PlusIcon, Search, X } from '@lucide/svelte'
+  import { Search, X } from '@lucide/svelte'
   import type { Snippet } from 'svelte'
+  import { get } from 'svelte/store'
+  import { _ } from 'svelte-i18n'
 
   interface Props {
     title: string
@@ -19,7 +20,7 @@
     children,
     padding = '0px',
     searchable = false,
-    searchPlaceholder = 'Pesquisar...',
+    searchPlaceholder = get(_)('actions.search'),
     searchValue = $bindable(''),
     onSearch,
     actions,
@@ -79,17 +80,6 @@
     border-radius: var(--radius-sm, 4px);
     box-shadow: 0 2px 6px rgb(0 0 0 / 8%);
   }
-  /*.paper {
-    box-sizing: border-box;
-    width: auto;
-    max-height: 90vh;
-    margin-left: 10px;
-    margin-right: 10px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm, 4px);
-    box-shadow: 0 2px 6px rgb(0 0 0 / 8%);
-  }*/
 
   .paper-header {
     display: flex;
