@@ -1,3 +1,8 @@
+interface PersonSimple {
+  id: number | undefined
+  name: string
+}
+
 interface Person {
   id: number | undefined
   name: string
@@ -7,4 +12,4 @@ interface Person {
   updated_at?: string
 }
 
-export type { Person }
+export type { Person, PersonSimple }

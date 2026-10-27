@@ -1,7 +1,7 @@
 <script lang="ts" generics="TData extends object">
   import type { ColumnDef } from '@tanstack/svelte-table'
   import { createTable, FlexRender, tableFeatures } from '@tanstack/svelte-table'
-  import type { TableColumn } from './types'
+  import type { BooleanIcon, BooleanIcons, TableColumn } from './types'
 
   interface Props {
     data: TData[]
@@ -132,6 +132,10 @@
     pageIndex = Math.max(0, Math.min(index, pageCount - 1))
   }
 
+  const isTrueWhen = (value: unknown, icons: BooleanIcons) => {
+    return icons.when ? icons.when(value) : Boolean(value)
+  }
+
   $effect(() => {
     // Volta para a última página válida quando a quantidade de dados diminui.
     if (pageIndex >= pageCount && pageCount > 0) {
@@ -216,8 +220,9 @@
                 {:else}
                   {@const value = getValue(item, String(column.key))}
 
-                  {#if column.booleanIcons && typeof value === 'boolean'}
-                    {@const iconConfig = value ? column.booleanIcons.true : column.booleanIcons.false}
+                  {#if column.booleanIcons}
+                    {@const isTrue = isTrueWhen(value, column.booleanIcons)}
+                    {@const iconConfig = isTrue ? column.booleanIcons.true : column.booleanIcons.false}
                     <iconConfig.component size={18} color={iconConfig.color} />
                   {:else if column.format}
                     {column.format(value, item)}

@@ -1,3 +1,8 @@
+interface PeriodSimple {
+  id?: number
+  description: string
+}
+
 interface Period {
   id: number
   closed: boolean
@@ -10,4 +15,4 @@ interface Period {
 
 type PeriodPayload = Omit<Period, 'id'>
 
-export type { Period, PeriodPayload }
+export type { Period, PeriodPayload, PeriodSimple }

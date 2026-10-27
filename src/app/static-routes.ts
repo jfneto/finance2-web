@@ -6,6 +6,7 @@ const StaticRoutes = {
   paymentForms: '/payment-forms',
   periods: '/periods',
   people: '/people',
+  moviments: '/moviments',
 }
 
 export { StaticRoutes }

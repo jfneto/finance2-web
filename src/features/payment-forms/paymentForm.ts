@@ -1,6 +1,11 @@
 import type { AccountSimple } from '@features/accounts/account'
 import type { CategorySimple } from '@features/categories'
 
+interface PaymentFormSimple {
+  id: number
+  description: string
+}
+
 interface PaymentForm {
   id: number
   description: string
@@ -27,4 +32,4 @@ interface PaymentFormPayload {
   category_id: number
 }
 
-export type { PaymentForm, PaymentFormPayload }
+export type { PaymentForm, PaymentFormPayload, PaymentFormSimple }

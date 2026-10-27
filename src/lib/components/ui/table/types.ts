@@ -20,6 +20,12 @@ interface BooleanIcon {
   color?: string
 }
 
+interface BooleanIcons {
+  true: BooleanIcon
+  false: BooleanIcon
+  when?: (value: unknown) => boolean
+}
+
 interface TableAction<T extends object> {
   label: string
   icon: Component<LucideProps>
@@ -35,7 +41,7 @@ interface DataColumn<T extends object> {
   align?: 'left' | 'center' | 'right'
   sortable?: boolean
   format?: (value: unknown, row: T) => string
-  booleanIcons?: { true: BooleanIcon; false: BooleanIcon }
+  booleanIcons?: BooleanIcons
 }
 
 interface ActionsColumn<T extends object> {
@@ -48,4 +54,4 @@ interface ActionsColumn<T extends object> {
 
 type TableColumn<T extends object> = DataColumn<T> | ActionsColumn<T>
 
-export type { TableAction, TableColumn }
+export type { BooleanIcon, BooleanIcons, TableAction, TableColumn }

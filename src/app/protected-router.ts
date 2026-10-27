@@ -2,6 +2,7 @@ import AccountTypesPage from '@features/account-types/AccountTypesPage.svelte'
 import AccountsPage from '@features/accounts/AccountsPage.svelte'
 import CategoriesPage from '@features/categories/CategoriesPage.svelte'
 import Dashboard from '@features/dashboard/pages/Dashboard.svelte'
+import MovimentPage from '@features/moviments/MovimentPage.svelte'
 import PaymentFormsPage from '@features/payment-forms/PaymentFormsPage.svelte'
 import PeoplePage from '@features/people/PeoplePage.svelte'
 import PeriodPage from '@features/periods/PeriodPage.svelte'
@@ -36,6 +37,10 @@ const protectedRoutes: RouteConfig[] = [
   {
     path: StaticRoutes.periods,
     component: PeriodPage,
+  },
+  {
+    path: StaticRoutes.moviments,
+    component: MovimentPage,
   },
 ]
 

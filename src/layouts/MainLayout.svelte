@@ -13,6 +13,7 @@
     LayoutDashboard,
     ListSortDescending,
     LogOut,
+    SquareActivity,
     UserGroup,
     WalletCards,
   } from '@lucide/svelte'
@@ -63,7 +64,16 @@
     },
   ]
 
-  const items: MenuItem[] = [...fixed, ...registration]
+  const routines: MenuItem[] = [
+    {
+      label: $_('menus.moviments'),
+      href: StaticRoutes.moviments,
+      icon: SquareActivity,
+      group: $_('menus.groups.routines'),
+    },
+  ]
+
+  const items: MenuItem[] = [...fixed, ...registration, ...routines]
 
   console.log(items)
 </script>
