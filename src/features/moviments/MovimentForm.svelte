@@ -2,7 +2,6 @@
   import AppButton from '@lib/components/ui/buttons/AppButton.svelte'
   import AppCombo from '@lib/components/ui/inputs/AppCombo.svelte'
   import AppInputField from '@lib/components/ui/inputs/AppInputField.svelte'
-  import AppSwitch from '@lib/components/ui/inputs/AppSwitch.svelte'
   import DatePicker from '@lib/components/ui/inputs/DatePicker.svelte'
   import AppContainer from '@lib/components/ui/layout/AppContainer.svelte'
   import AppContainerItem from '@lib/components/ui/layout/AppContainerItem.svelte'
@@ -17,11 +16,12 @@
     showModal?: boolean
     onClose: () => void
     selected?: Moviment | undefined
+    onSaved?: () => void
   }
 
-  const controller = createMovimentFormController(() => onClose())
+  let { showModal = $bindable(false), onClose, onSaved, selected }: Props = $props()
 
-  let { showModal = $bindable(false), onClose, selected }: Props = $props()
+  const controller = createMovimentFormController({ onClose: () => onClose(), onSaved: () => onSaved?.() })
 
   let wasOpen = false
 
@@ -32,9 +32,14 @@
       if ((selected?.details.number_parcels ?? 1) > 1) {
         let searchPayload: MovimentPayloadForSearch = {
           dt_emission: selected?.dt_emission ?? '',
-          description: selected?.dt_due ?? '',
+          description:
+            selected?.details.description.substring(
+              0,
+              selected?.details.description.indexOf(String(selected?.details.parcel ?? 1)),
+            ) ?? '',
+          //e.details.description.substring(0, e.details.description.indexOf(tmpParcels.toString())).trim()
           number_parcels: selected?.details.number_parcels ?? 0,
-          parcel: selected?.details.parcel ?? 0,
+          parcel: (selected?.details.parcel ?? 1) - 1,
         }
 
         movimentByFilter(searchPayload)
@@ -91,19 +96,31 @@
       </AppContainerItem>
       <AppContainerItem size={6}>
         <AppCombo
-          items={controller.categoriesQuery.data ?? []}
+          items={controller.filteredCategories ?? []}
           keyField="id"
           labelField="description"
           label={$_('moviment.fields.categoryId')}
           bind:value={controller.categoryId}
         />
       </AppContainerItem>
+
       <!-- linha 3 -->
       <AppContainerItem size={12}>
         <AppInputField bind:value={controller.obs} id="moviment[obs]" name="obs" label={$_('moviment.fields.obs')} />
       </AppContainerItem>
 
       <!-- linha 4 -->
+      <AppContainerItem size={12}>
+        <AppCombo
+          items={controller.peopleQuery.data ?? []}
+          keyField="id"
+          labelField="name"
+          label={$_('moviment.fields.personId')}
+          bind:value={controller.personId}
+        />
+      </AppContainerItem>
+
+      <!-- linha 5 -->
       <AppContainerItem size={12}>
         <AppInputField
           bind:value={controller.fitId}
@@ -138,7 +155,8 @@
           label={$_('moviment.fields.value')}
         />
       </AppContainerItem>
-      <!-- linha 6 -->
+
+      <!-- linha 7 -->
       <AppContainerItem size={4}>
         <DatePicker label={$_('moviment.fields.dtEmission')} bind:value={controller.emission} />
       </AppContainerItem>

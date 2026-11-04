@@ -89,7 +89,9 @@ const createAccountsController = () => {
   )
 
   return {
-    accountQuery,
+    refetch: () => {
+      accountQuery.refetch()
+    },
     columns,
     get search() {
       return search

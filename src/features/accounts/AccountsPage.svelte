@@ -42,5 +42,6 @@
   onClose={() => {
     controller.showModal = false
   }}
+  refreshOnSubmit={controller.refetch}
   selected={controller.selected}
 />

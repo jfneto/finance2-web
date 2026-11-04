@@ -13,6 +13,7 @@ const menu = {
     people: 'Pessoas',
     moviments: 'Movimentos',
     creditcards: 'Cartão de Crédito',
+    importer: 'Importador',
   },
 }
 

@@ -14,11 +14,16 @@
     showModal?: boolean
     onClose: () => void
     selected?: Account | undefined
+    onSubmit?: () => void
+    refreshOnSubmit?: () => void
   }
 
-  const controller = createAccountsFormController(() => onClose())
+  let { showModal = $bindable(false), onClose, selected, refreshOnSubmit }: Props = $props()
 
-  let { showModal = $bindable(false), onClose, selected }: Props = $props()
+  const controller = createAccountsFormController({
+    onRefresh: () => refreshOnSubmit?.(),
+    onSubmitted: () => onClose(),
+  })
 
   let wasOpen = false
 

@@ -42,7 +42,10 @@
       if (!confirmed) return
 
       movimentClose()
-        .then(() => toast.success('movimentos fechados com sucesso'))
+        .then(() => {
+          toast.success('movimentos fechados com sucesso')
+          controller.movimentsQuery.refetch()
+        })
         .catch((error) => {
           toast.error(`Ocorreu um erro ao fechar o período. Por favor, tente novamente. ${error}`)
         })

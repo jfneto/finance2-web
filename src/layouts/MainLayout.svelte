@@ -10,6 +10,7 @@
     Calendar,
     CreditCard,
     CreditCardReader,
+    Import,
     Landmark,
     LayoutDashboard,
     ListSortDescending,
@@ -66,6 +67,12 @@
   ]
 
   const routines: MenuItem[] = [
+    {
+      label: $_('menus.importer'),
+      href: StaticRoutes.importer,
+      icon: Import,
+      group: $_('menus.groups.routines'),
+    },
     {
       label: $_('menus.moviments'),
       href: StaticRoutes.moviments,

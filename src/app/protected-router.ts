@@ -2,6 +2,7 @@ import AccountTypesPage from '@features/account-types/AccountTypesPage.svelte'
 import AccountsPage from '@features/accounts/AccountsPage.svelte'
 import CategoriesPage from '@features/categories/CategoriesPage.svelte'
 import Dashboard from '@features/dashboard/pages/Dashboard.svelte'
+import ImporterPage from '@features/importer/ImporterPage.svelte'
 import CreditcardPage from '@features/moviments/CreditcardPage.svelte'
 import MovimentPage from '@features/moviments/MovimentPage.svelte'
 import PaymentFormsPage from '@features/payment-forms/PaymentFormsPage.svelte'
@@ -46,6 +47,10 @@ const protectedRoutes: RouteConfig[] = [
   {
     path: StaticRoutes.creditcards,
     component: CreditcardPage,
+  },
+  {
+    path: StaticRoutes.importer,
+    component: ImporterPage,
   },
 ]
 

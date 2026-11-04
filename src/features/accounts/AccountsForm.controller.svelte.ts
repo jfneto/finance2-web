@@ -4,7 +4,12 @@ import { toast } from 'svelte-sonner'
 import type { Account } from './account'
 import { createAccount, updateAccount } from './services'
 
-const createAccountsFormController = (onSubmitted?: () => void) => {
+interface props {
+  onSubmitted: () => void
+  onRefresh: () => void
+}
+
+const createAccountsFormController = ({ onSubmitted, onRefresh }: props) => {
   const accountTypesQuery = createQuery(() => ({
     ...accountTypesQueryOptions(),
   }))
@@ -44,12 +49,12 @@ const createAccountsFormController = (onSubmitted?: () => void) => {
       credit_card_number: creditCard,
     }
 
-    onSubmitted?.()
-
     if (id === undefined) {
       createAccount(payload)
         .then(() => {
           toast.success('Conta criada com sucesso')
+          onRefresh?.()
+          onSubmitted?.()
         })
         .catch(() => {
           toast.error('não foi possivel criar a conta')
@@ -58,6 +63,8 @@ const createAccountsFormController = (onSubmitted?: () => void) => {
       updateAccount(payload)
         .then(() => {
           toast.success('Conta atualizada com sucesso')
+          onRefresh?.()
+          onSubmitted?.()
         })
         .catch(() => {
           toast.error('não foi possível atualizar a conta')

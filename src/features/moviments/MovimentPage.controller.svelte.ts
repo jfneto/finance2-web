@@ -23,6 +23,7 @@ const createMovimentPageController = () => {
       key: 'id',
       header: get(_)('moviment.fields.id'),
       width: '70px',
+      sortable: true,
     },
     {
       key: 'cred_deb_type',
@@ -39,6 +40,7 @@ const createMovimentPageController = () => {
         when: (value) => Number(value) < 1,
       },
       width: '50px',
+      sortable: true,
     },
     {
       key: 'details.description',
@@ -50,6 +52,7 @@ const createMovimentPageController = () => {
           return row.details.description
         }
       },
+      sortable: true,
     },
 
     {
@@ -58,6 +61,7 @@ const createMovimentPageController = () => {
       format: (value) => formatDate(value as string, true),
       width: '116px',
       align: 'right',
+      sortable: true,
     },
     {
       key: 'dt_emission',
@@ -65,6 +69,7 @@ const createMovimentPageController = () => {
       format: (value) => formatDate(value as string, true),
       width: '115px',
       align: 'right',
+      sortable: true,
     },
     {
       key: 'details.number_parcels',
@@ -84,6 +89,7 @@ const createMovimentPageController = () => {
       align: 'right',
       format: (value) => formatToCurrency(value as string),
       width: '160px',
+      sortable: true,
     },
     {
       key: 'details.payd_value',

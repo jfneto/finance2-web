@@ -49,6 +49,7 @@ interface MovimentPayload {
   obs?: string
   number_parcels?: number
   parcel?: number
+  person_id?: number
 }
 
 interface MovimentPayloadForSearch {
