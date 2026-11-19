@@ -3,6 +3,7 @@
     items: T[]
     keyField: keyof T
     labelField: keyof T
+    labelPrefix?: string
     label: string
     value?: T[keyof T] | undefined
     disabled?: boolean
@@ -10,7 +11,17 @@
     onchange?: (value: T[keyof T] | undefined) => void
   }
 
-  let { items, keyField, labelField, label, value = $bindable(), disabled = false, name, onchange }: Props = $props()
+  let {
+    items,
+    keyField,
+    labelPrefix,
+    labelField,
+    label,
+    value = $bindable(),
+    disabled = false,
+    name,
+    onchange,
+  }: Props = $props()
 
   const id = $props.id()
   const listId = `${id}-list`
@@ -22,13 +33,7 @@
 
   let selectedItem = $derived(items.find((item) => String(item[keyField]) === String(value)))
 
-  let filteredItems = $derived(
-    items.filter((item) =>
-      String(item[labelField] ?? '')
-        .toLowerCase()
-        .includes(query.toLowerCase()),
-    ),
-  )
+  let filteredItems = $derived(items.filter((item) => getLabel(item).toLowerCase().includes(query.toLowerCase())))
 
   const positionList = () => {
     if (!inputElement || !listElement) return
@@ -72,6 +77,18 @@
     open = true
   }
 
+  const getByPath = (source: unknown, path: string): unknown =>
+    path.split('.').reduce<unknown>((acc, key) => (acc as Record<string, unknown> | null | undefined)?.[key], source)
+
+  const getLabel = (item: T | undefined): string => {
+    if (!item) return ''
+
+    const prefix = labelPrefix ? getByPath(item, labelPrefix) : undefined
+    const text = String(item[labelField] ?? '')
+
+    return prefix ? `${String(prefix)}/${text}` : text
+  }
+
   $effect(() => {
     if (open && !disabled && listElement) {
       if (!listElement.matches(':popover-open')) {
@@ -110,7 +127,7 @@
     aria-autocomplete="list"
     autocomplete="off"
     {disabled}
-    value={query || String(selectedItem?.[labelField] ?? '')}
+    value={query || getLabel(selectedItem)}
     onfocus={() => {
       open = true
     }}
@@ -131,7 +148,7 @@
             onmousedown={(event) => event.preventDefault()}
             onclick={() => selectItem(item)}
           >
-            {String(item[labelField] ?? '')}
+            {getLabel(item)}
           </button>
         </li>
       {/each}

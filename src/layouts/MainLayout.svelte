@@ -88,8 +88,6 @@
   ]
 
   const items: MenuItem[] = [...fixed, ...registration, ...routines]
-
-  console.log(items)
 </script>
 
 {#snippet drawerFooter()}

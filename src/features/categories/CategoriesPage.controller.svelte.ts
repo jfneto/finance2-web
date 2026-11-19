@@ -74,7 +74,6 @@ const createCategoriesController = () => {
           icon: Pencil,
           onClick: () => {
             showModal = true
-            console.log(row)
             selected = row
           },
         },

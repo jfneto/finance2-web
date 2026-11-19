@@ -53,10 +53,10 @@ interface MovimentPayload {
 }
 
 interface MovimentPayloadForSearch {
-  dt_emission: string
+  dt_emission?: string
   description: string
-  number_parcels: number
-  parcel: number
+  number_parcels?: number
+  parcel?: number
 }
 
 export type { Moviment, MovimentPayload, MovimentPayloadForSearch }

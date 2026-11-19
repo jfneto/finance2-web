@@ -109,8 +109,9 @@ const createMovimentFormController = ({ onClose = () => {}, onSaved = () => {} }
   ]
 
   let filteredCategories = $derived(
-    (categoriesQuery.data ?? []).filter((item: Category) =>
-      item.category_type.toUpperCase().includes(type === '0' ? 'CREDIT' : 'DEBIT'),
+    (categoriesQuery.data ?? []).filter(
+      (item: Category) =>
+        item.category_type.toUpperCase().includes(type === '0' ? 'CREDIT' : 'DEBIT') && item.level_number === 3,
     ),
   )
 

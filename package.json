@@ -28,6 +28,7 @@
     "@tanstack/svelte-table": "^9.3.1",
     "axios": "^1.20.0",
     "bits-ui": "^2.20.2",
+    "chart.js": "^4.6.1",
     "lucide-svelte": "^1.0.1",
     "svelte-i18n": "^4.0.1",
     "svelte-sonner": "^1.2.1",

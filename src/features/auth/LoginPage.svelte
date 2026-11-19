@@ -9,8 +9,6 @@
   const handleSubmit = async (): Promise<void> => {
     const authenticated = await login.submit()
 
-    console.log(authenticated)
-
     if (authenticated) {
       window.location.assign('/dashboard')
     }

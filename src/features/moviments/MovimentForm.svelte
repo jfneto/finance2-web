@@ -29,8 +29,10 @@
     if (showModal && !wasOpen) {
       controller.initState(selected)
 
+      let searchPayload: MovimentPayloadForSearch
+
       if ((selected?.details.number_parcels ?? 1) > 1) {
-        let searchPayload: MovimentPayloadForSearch = {
+        searchPayload = {
           dt_emission: selected?.dt_emission ?? '',
           description:
             selected?.details.description.substring(
@@ -41,20 +43,30 @@
           number_parcels: selected?.details.number_parcels ?? 0,
           parcel: (selected?.details.parcel ?? 1) - 1,
         }
+      } else {
+        searchPayload = {
+          description: selected?.details.description || '',
+          number_parcels: 1,
+          parcel: 1,
+        }
+      }
 
-        movimentByFilter(searchPayload)
-          .then((response) => {
+      console.log(searchPayload)
+      movimentByFilter(searchPayload)
+        .then((response) => {
+          if (response) {
             toast.success('Dados do histórico de movimento carregados com sucesso.')
-
             controller.type = String(response.cred_deb_type)
             controller.obs = response.obs ?? ''
             controller.paymentForm = String(response.payment_form_id)
             controller.categoryId = String(response.category_id)
-          })
-          .catch(() => {
-            toast.error('Ocorreu um erro ao buscar os dados do histórico de movimento.')
-          })
-      }
+            controller.personId = String(response.person_id)
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          toast.error('Ocorreu um erro ao buscar os dados do histórico de movimento.')
+        })
     }
     wasOpen = showModal
   })
@@ -98,6 +110,7 @@
         <AppCombo
           items={controller.filteredCategories ?? []}
           keyField="id"
+          labelPrefix="category.description"
           labelField="description"
           label={$_('moviment.fields.categoryId')}
           bind:value={controller.categoryId}

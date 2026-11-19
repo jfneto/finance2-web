@@ -1,5 +1,4 @@
 import type { TableColumn } from '@lib/components/ui/table/types'
-import { formatDate } from '@lib/utils/formatDate'
 import { formatToCurrency } from '@lib/utils/numbers'
 import { BanknoteArrowDown, BanknoteArrowUp, BanknoteCheck, BanknoteX, Pencil } from '@lucide/svelte'
 import { createQuery } from '@tanstack/svelte-query'
@@ -54,35 +53,40 @@ const createMovimentPageController = () => {
       },
       sortable: true,
     },
-
     {
-      key: 'dt_due',
-      header: get(_)('moviment.fields.dtDue'),
-      format: (value) => formatDate(value as string, true),
-      width: '116px',
-      align: 'right',
+      key: 'category.description',
+      header: get(_)('moviment.fields.categoryId'),
+      width: '300px',
       sortable: true,
     },
-    {
-      key: 'dt_emission',
-      header: get(_)('moviment.fields.dtEmission'),
-      format: (value) => formatDate(value as string, true),
-      width: '115px',
-      align: 'right',
-      sortable: true,
-    },
-    {
-      key: 'details.number_parcels',
-      header: get(_)('moviment.fields.numberParcels'),
-      align: 'right',
-      width: '175px',
-    },
-    {
-      key: 'details.parcel',
-      header: get(_)('moviment.fields.parcel'),
-      width: '100px',
-      align: 'right',
-    },
+    // {
+    //   key: 'dt_due',
+    //   header: get(_)('moviment.fields.dtDue'),
+    //   format: (value) => formatDate(value as string, true),
+    //   width: '116px',
+    //   align: 'right',
+    //   sortable: true,
+    // },
+    // {
+    //   key: 'dt_emission',
+    //   header: get(_)('moviment.fields.dtEmission'),
+    //   format: (value) => formatDate(value as string, true),
+    //   width: '115px',
+    //   align: 'right',
+    //   sortable: true,
+    // },
+    // {
+    //   key: 'details.number_parcels',
+    //   header: get(_)('moviment.fields.numberParcels'),
+    //   align: 'right',
+    //   width: '175px',
+    // },
+    // {
+    //   key: 'details.parcel',
+    //   header: get(_)('moviment.fields.parcel'),
+    //   width: '100px',
+    //   align: 'right',
+    // },
     {
       key: 'details.value',
       header: get(_)('moviment.fields.value'),

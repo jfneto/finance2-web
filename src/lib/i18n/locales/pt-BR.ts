@@ -2,6 +2,7 @@ import { account } from './pt-BR/account'
 import { accountType } from './pt-BR/accountType'
 import { app } from './pt-BR/app'
 import { category } from './pt-BR/category'
+import { dashboard } from './pt-BR/dashboard'
 import { importer } from './pt-BR/importer'
 import { login } from './pt-BR/login'
 import { menu } from './pt-BR/menu'
@@ -24,6 +25,7 @@ const ptBR = {
   ...moviment,
   ...importer,
   ...ofx,
+  ...dashboard,
 } as const
 
 export { ptBR }
