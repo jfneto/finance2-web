@@ -1,6 +1,7 @@
 <script lang="ts">
   import BarChart from '@lib/components/ui/charts/BarChart.svelte'
   import WidgetCardValue from '@lib/components/ui/widgets/CardValue.svelte'
+  import CardValueSummary from '@lib/components/ui/widgets/CardValueSummary.svelte'
   import { formatToCurrency } from '@lib/utils/numbers'
   import { CalendarChevronsRight, CreditCard, CreditCardMinus, CreditCardPlus } from '@lucide/svelte'
   import { _ } from 'svelte-i18n'
@@ -54,14 +55,16 @@
       {/snippet}
     </WidgetCardValue>
 
-    <WidgetCardValue
+    <CardValueSummary
       title={$_('dashboard.layout.widgets.future')}
-      actualValue={controller.widgetPendingInstallments.data?.widget.total}
+      fixedCosts={controller.widgetPendingInstallments.data?.widget.fixed_costs}
+      pendingInstallments={controller.widgetPendingInstallments.data?.widget.pending_installments}
+      total={controller.widgetPendingInstallments.data?.widget.total}
     >
       {#snippet icon()}
         <CalendarChevronsRight size={48} color="var(--color-warning)" />
       {/snippet}
-    </WidgetCardValue>
+    </CardValueSummary>
   </div>
   <div>
     <BarChart data={controller.widgetBarChartSummarizedCreditsDebits.data} title={''} />
