@@ -9,6 +9,8 @@ const StaticRoutes = {
   moviments: '/moviments',
   creditcards: '/creditcard',
   importer: '/importer',
+  extractReport: '/reports/extract',
+  categoryReport: '/reports/category',
 }
 
 export { StaticRoutes }

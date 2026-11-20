@@ -8,6 +8,8 @@ import MovimentPage from '@features/moviments/MovimentPage.svelte'
 import PaymentFormsPage from '@features/payment-forms/PaymentFormsPage.svelte'
 import PeoplePage from '@features/people/PeoplePage.svelte'
 import PeriodPage from '@features/periods/PeriodPage.svelte'
+import CategoryReportPage from '@features/reports/CategoryReportPage.svelte'
+import ExtractPage from '@features/reports/ExtractPage.svelte'
 import type { RouteConfig } from '@mateothegreat/svelte5-router'
 import { StaticRoutes } from './static-routes'
 
@@ -51,6 +53,14 @@ const protectedRoutes: RouteConfig[] = [
   {
     path: StaticRoutes.importer,
     component: ImporterPage,
+  },
+  {
+    path: StaticRoutes.extractReport,
+    component: ExtractPage,
+  },
+  {
+    path: StaticRoutes.categoryReport,
+    component: CategoryReportPage,
   },
 ]
 

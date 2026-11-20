@@ -10,12 +10,14 @@
     Calendar,
     CreditCard,
     CreditCardReader,
+    FileText,
     Import,
     Landmark,
     LayoutDashboard,
     ListSortDescending,
     LogOut,
     SquareActivity,
+    TableProperties,
     UserGroup,
     WalletCards,
   } from '@lucide/svelte'
@@ -87,7 +89,22 @@
     },
   ]
 
-  const items: MenuItem[] = [...fixed, ...registration, ...routines]
+  const reports: MenuItem[] = [
+ {
+ label: $_('menus.extractReport'),
+ href: StaticRoutes.extractReport,
+ icon: TableProperties,
+ group: $_('menus.groups.reports'),
+ },
+ {
+ label: $_('menus.categoryReport'),
+ href: StaticRoutes.categoryReport,
+ icon: FileText,
+ group: $_('menus.groups.reports'),
+ },
+ ]
+
+  const items: MenuItem[] = [...fixed, ...registration, ...routines, ...reports]
 </script>
 
 {#snippet drawerFooter()}

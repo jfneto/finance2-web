@@ -3,6 +3,7 @@ const menu = {
     groups: {
       registration: 'cadastro',
       routines: 'rotinas',
+      reports: 'relatórios',
     },
     dashboard: 'Dashboard',
     accountType: 'Tipo de Conta',
@@ -14,6 +15,8 @@ const menu = {
     moviments: 'Movimentos',
     creditcards: 'Cartão de Crédito',
     importer: 'Importador',
+    extractReport: 'Extrato Mensal',
+    categoryReport: 'Relatório por Categoria',
   },
 }
 
