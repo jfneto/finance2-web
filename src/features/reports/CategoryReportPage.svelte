@@ -27,6 +27,14 @@
 
   const isExpanded = (id: number) => expandedNodes.has(id)
 
+  const hasMoviments = (node: CategoryNode): boolean => {
+    if (node.moviments.items.length > 0) return true
+    if (node.sub_category) {
+      return node.sub_category.some((child) => hasMoviments(child))
+    }
+    return false
+  }
+
   const movimentColumns: TableColumn<CategoryMovimentItem>[] = [
     {
       key: 'description',
@@ -67,6 +75,7 @@
 </script>
 
 {#snippet renderNode(node: CategoryNode, depth: number)}
+  {#if hasMoviments(node)}
   <div class="category-node" style:padding-left="{depth * 24}px">
     <button
       type="button"
@@ -105,6 +114,7 @@
       {/if}
     {/if}
   </div>
+  {/if}
 {/snippet}
 
 <AppPaper title="Relatório por Categoria" padding="16px">
