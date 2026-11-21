@@ -97,28 +97,6 @@
       </div>
     {/each}
   </nav>
-  <!-- <nav class="navigation" aria-label="Menu principal">
-    {#each items as item (item.href)}
-      {@const Icon = item.icon}
-      <button
-        class="menu-item"
-        class:active={activePath === item.href}
-        type="button"
-        aria-current={activePath === item.href ? 'page' : undefined}
-        aria-label={collapsed ? item.label : undefined}
-        title={collapsed ? item.label : undefined}
-        onclick={() => onNavigate?.(item.href)}
-      >
-        <span class="icon">
-          <Icon size={20} /></span
-        >
-
-        {#if !collapsed}
-          <span class="label">{item.label}</span>
-        {/if}
-      </button>
-    {/each}
-  </nav> -->
 
   {#if footer}
     <div class="footer">

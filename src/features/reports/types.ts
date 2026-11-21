@@ -42,10 +42,4 @@ interface CategoryNode {
   sub_category?: CategoryNode[]
 }
 
-export type {
-  CategoryMovimentItem,
-  CategoryMoviments,
-  CategoryNode,
-  ExtractMoviment,
-  ExtractPeriod,
-}
+export type { CategoryMovimentItem, CategoryMoviments, CategoryNode, ExtractMoviment, ExtractPeriod }

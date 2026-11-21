@@ -1,8 +1,8 @@
 export { categoryByPeriod, extractByPeriod } from './services'
 export type {
- CategoryMovimentItem,
- CategoryMoviments,
- CategoryNode,
- ExtractMoviment,
- ExtractPeriod,
+  CategoryMovimentItem,
+  CategoryMoviments,
+  CategoryNode,
+  ExtractMoviment,
+  ExtractPeriod,
 } from './types'
