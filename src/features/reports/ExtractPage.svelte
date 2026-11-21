@@ -1,63 +1,11 @@
 <script lang="ts">
   import AppPaper from '@lib/components/ui/layout/AppPaper.svelte'
   import AppTable from '@lib/components/ui/table/AppTable.svelte'
-  import type { TableColumn } from '@lib/components/ui/table/types'
-  import { BanknoteArrowDown, BanknoteArrowUp } from '@lucide/svelte'
-  import { get } from 'svelte/store'
-  import { _ } from 'svelte-i18n'
   import { createExtractPageController } from './ExtractPage.controller.svelte'
-  import type { ExtractMoviment } from './types'
 
   const controller = createExtractPageController()
 
-  const formatCurrency = (value: string | number): string => {
-    const num = typeof value === 'string' ? parseFloat(value) : value
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(num || 0)
-  }
-
-  const columns: TableColumn<ExtractMoviment>[] = [
-    {
-      key: 'id',
-      header: get(_)('moviment.fields.id'),
-      width: '70px',
-      sortable: true,
-    },
-    {
-      key: 'cred_deb_type',
-      header: get(_)('moviment.fields.credDebType'),
-      booleanIcons: {
-        true: {
-          component: BanknoteArrowUp,
-          color: 'var(--color-success)',
-        },
-        false: {
-          component: BanknoteArrowDown,
-          color: 'var(--color-danger)',
-        },
-        when: (value) => Number(value) < 1,
-      },
-      width: '50px',
-      sortable: true,
-    },
-    {
-      key: 'description',
-      header: get(_)('moviment.fields.description'),
-      sortable: true,
-    },
-    {
-      key: 'category',
-      header: get(_)('moviment.fields.categoryId'),
-      sortable: true,
-    },
-    {
-      key: 'value',
-      header: get(_)('moviment.fields.value'),
-      align: 'right',
-      format: (value) => formatCurrency(value as string),
-      width: '160px',
-      sortable: true,
-    },
-  ]
+  console.log(controller.sortedPeriods)
 </script>
 
 <AppPaper title="Extrato Mensal" padding="16px">
@@ -102,7 +50,7 @@
 
     <AppTable
       data={controller.activeMoviments ?? []}
-      {columns}
+      columns={controller.columns}
       emptyMessage="Nenhuma movimentação neste período."
       pageSize={13}
     />
