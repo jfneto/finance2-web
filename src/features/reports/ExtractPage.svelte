@@ -4,8 +4,6 @@
   import { createExtractPageController } from './ExtractPage.controller.svelte'
 
   const controller = createExtractPageController()
-
-  console.log(controller.sortedPeriods)
 </script>
 
 <AppPaper title="Extrato Mensal" padding="16px">

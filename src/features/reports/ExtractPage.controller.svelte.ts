@@ -13,12 +13,15 @@ const createExtractPageController = () => {
     ...extractByPeriodQueryOptions(),
   }))
 
-  let activeView = $state<ViewTab>('extract')
-  let selectedPeriod = $state<string | null>(null)
+  const ui = $state({
+    activeView: 'extract' as ViewTab,
+    selectedPeriod: null as string | null,
+  })
 
   const sortedPeriods = $derived.by(() => {
-    if (!extractQuery.data) return []
-    return [...extractQuery.data]
+    const data = extractQuery.data
+    if (!data) return []
+    return [...data]
       .sort((a, b) => {
         const [monthA, yearA] = a.period.split('/').map(Number)
         const [monthB, yearB] = b.period.split('/').map(Number)
@@ -27,12 +30,10 @@ const createExtractPageController = () => {
       .map((item) => item.period)
   })
 
-  const activePeriod = $derived(selectedPeriod ?? sortedPeriods[0] ?? '')
-
   const activeMoviments = $derived.by(() => {
     const data = extractQuery.data
-    const period = selectedPeriod ?? sortedPeriods[0] ?? ''
-    const view = activeView
+    const period = ui.selectedPeriod ?? sortedPeriods[0]
+    const view = ui.activeView
 
     if (!data || !period) return null
     const periodData = data.find((item) => item.period === period)
@@ -92,22 +93,24 @@ const createExtractPageController = () => {
 
   return {
     extractQuery,
-    sortedPeriods,
     columns,
+    get sortedPeriods() {
+      return sortedPeriods
+    },
     get activeMoviments() {
       return activeMoviments
     },
     get activeView() {
-      return activeView
+      return ui.activeView
     },
     set activeView(value: ViewTab) {
-      activeView = value
+      ui.activeView = value
     },
     get activePeriod() {
-      return activePeriod
+      return ui.selectedPeriod ?? sortedPeriods[0] ?? ''
     },
     set activePeriod(value: string) {
-      selectedPeriod = value
+      ui.selectedPeriod = value
     },
   }
 }
