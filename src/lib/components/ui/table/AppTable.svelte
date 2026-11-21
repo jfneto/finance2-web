@@ -201,7 +201,7 @@
         {#each paginatedData as item, index (index)}
           <tr>
             {#each columns as column, columnIndex (column.type === 'actions' ? 'actions' : String(column.key))}
-              <td style:text-align={column.align ?? 'left'}>
+              <td style:text-align={column.align ?? 'left'} style:color={column.type !== 'actions' && column.cellColor ? column.cellColor(getValue(item, String(column.key)), item) : undefined}>
                 {#if column.type === 'actions'}
                   <div class="table-actions">
                     {#each column.actions(item) as action (action.label)}

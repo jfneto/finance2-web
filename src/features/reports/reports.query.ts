@@ -1,16 +1,16 @@
 import { queryOptions } from '@tanstack/svelte-query'
-import { categoryByPeriod, extractByPeriod } from './services'
+import { reportsApi } from './reports.api'
 
 const extractByPeriodQueryOptions = () =>
   queryOptions({
     queryKey: ['reports', 'extract-by-period'],
-    queryFn: extractByPeriod,
+    queryFn: reportsApi.extractFromLast12Months,
   })
 
-const categoryByPeriodQueryOptions = () =>
+const categoryByPeriodQueryOptions = (period: number) =>
   queryOptions({
-    queryKey: ['reports', 'category-by-period'],
-    queryFn: categoryByPeriod,
+    queryKey: ['reports', 'category-by-period', period],
+    queryFn: () => reportsApi.extractBySelectedPeriod(period),
   })
 
 export { categoryByPeriodQueryOptions, extractByPeriodQueryOptions }

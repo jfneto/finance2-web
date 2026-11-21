@@ -1,6 +1,14 @@
 import type { LucideProps } from '@lucide/svelte'
 import type { Component } from 'svelte'
 
+type ColorToken =
+ | 'var(--color-text)'
+ | 'var(--color-text-muted)'
+ | 'var(--color-primary)'
+ | 'var(--color-danger)'
+ | 'var(--color-warning)'
+ | 'var(--color-success)'
+
 type Primitive = string | number | boolean | bigint | symbol | null | undefined
 
 type IsAtomic<T> = T extends Primitive | Date | RegExp | Function ? true : false
@@ -42,6 +50,7 @@ interface DataColumn<T extends object> {
   sortable?: boolean
   format?: (value: unknown, row: T) => string
   booleanIcons?: BooleanIcons
+  cellColor?: (value: unknown, row: T) => ColorToken
 }
 
 interface ActionsColumn<T extends object> {

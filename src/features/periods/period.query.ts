@@ -1,12 +1,18 @@
 import { queryOptions } from '@tanstack/svelte-query'
-import { periodAll } from './services'
+import { periodApi } from './period.api'
 
 const periodQueryKey = ['periods'] as const
 
 const periodsQueryOptions = () =>
   queryOptions({
     queryKey: periodQueryKey,
-    queryFn: periodAll,
+    queryFn: periodApi.all,
   })
 
-export { periodQueryKey, periodsQueryOptions }
+const periodsForFilterQueryOptions = () =>
+  queryOptions({
+    queryKey: periodQueryKey,
+    queryFn: periodApi.forFilter,
+  })
+
+export { periodsForFilterQueryOptions, periodsQueryOptions }

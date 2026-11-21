@@ -75,6 +75,11 @@
   const handleInput = (event: Event) => {
     query = (event.currentTarget as HTMLInputElement).value
     open = true
+
+    if (query === '' && value !== undefined) {
+      value = undefined
+      onchange?.(undefined)
+    }
   }
 
   const getByPath = (source: unknown, path: string): unknown =>

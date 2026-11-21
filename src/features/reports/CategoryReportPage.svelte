@@ -1,8 +1,11 @@
 <script lang="ts">
+  import AppCombo from '@lib/components/ui/inputs/AppCombo.svelte'
   import AppPaper from '@lib/components/ui/layout/AppPaper.svelte'
+  import AppTable from '@lib/components/ui/table/AppTable.svelte'
+  import type { TableColumn } from '@lib/components/ui/table/types'
   import { ChevronDown, ChevronRight } from '@lucide/svelte'
   import { createCategoryReportController } from './CategoryReportPage.controller.svelte'
-  import type { CategoryNode } from './types'
+  import type { CategoryMovimentItem, CategoryNode } from './types'
 
   const controller = createCategoryReportController()
 
@@ -23,6 +26,44 @@
   }
 
   const isExpanded = (id: number) => expandedNodes.has(id)
+
+  const movimentColumns: TableColumn<CategoryMovimentItem>[] = [
+    {
+      key: 'description',
+      header: 'Descrição',
+      sortable: true,
+    },
+    {
+      key: 'category',
+      header: 'Categoria',
+      sortable: true,
+      width: '300px',
+    },
+    {
+      key: 'parcel',
+      header: 'Parcela',
+      format: (_, row) => `${row.parcel}/${row.number_parcels}`,
+      width: '80px',
+      align: 'right',
+    },
+    {
+      key: 'value',
+      header: 'Valor',
+      format: (value) => formatCurrency(value as string),
+      cellColor: (_, row) => (row.cred_deb_type === 0 ? 'var(--color-success)' : 'var(--color-danger)'),
+      width: '140px',
+      align: 'right',
+      sortable: true,
+    },
+    {
+      key: 'pending_value',
+      header: 'Pendente',
+      format: (value) => (value ? formatCurrency(value as string | number) : '-'),
+      cellColor: (_, row) => 'var(--color-warning)',
+      width: '140px',
+      align: 'right',
+    },
+  ]
 </script>
 
 {#snippet renderNode(node: CategoryNode, depth: number)}
@@ -52,28 +93,9 @@
 
     {#if isExpanded(node.id)}
       {#if node.moviments.items.length > 0}
-        <table class="moviment-table">
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Categoria</th>
-              <th>Parcela</th>
-              <th>Valor</th>
-              <th>Pendente</th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each node.moviments.items as mov}
-              <tr class:credit={mov.cred_deb_type === 0} class:debit={mov.cred_deb_type === 1}>
-                <td>{mov.description}</td>
-                <td>{mov.category}</td>
-                <td>{mov.parcel}/{mov.number_parcels}</td>
-                <td>{formatCurrency(mov.value)}</td>
-                <td>{mov.pending_value ? formatCurrency(mov.pending_value) : '-'}</td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
+        <div class="moviment-table-wrapper">
+          <AppTable data={node.moviments.items} columns={movimentColumns} pageSize={50} />
+        </div>
       {/if}
 
       {#if node.sub_category}
@@ -86,6 +108,18 @@
 {/snippet}
 
 <AppPaper title="Relatório por Categoria" padding="16px">
+  {#snippet actions()}
+    <div class="period-combo-wrapper">
+      <AppCombo
+        items={controller.periodsQuery.data ?? []}
+        keyField="value"
+        labelField="label"
+        label="Período"
+        bind:value={controller.selectedPeriodId}
+      />
+    </div>
+  {/snippet}
+
   {#if controller.categoryQuery.isPending}
     <p>Carregando...</p>
   {:else if controller.categoryQuery.isError}
@@ -102,6 +136,10 @@
 </AppPaper>
 
 <style>
+  .period-combo-wrapper {
+    width: 260px;
+  }
+
   h1 {
     font-size: 1.5rem;
     margin: 0 0 16px;
@@ -167,37 +205,7 @@
     color: var(--color-text);
   }
 
-  .moviment-table {
-    width: calc(100% - 24px);
+  .moviment-table-wrapper {
     margin: 4px 0 8px 24px;
-    border-collapse: collapse;
-    font-size: 0.8rem;
-  }
-
-  .moviment-table th,
-  .moviment-table td {
-    padding: 6px 10px;
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .moviment-table th {
-    background: var(--color-surface);
-    color: var(--color-text-muted);
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-
-  .moviment-table tbody tr:hover {
-    background: var(--color-input);
-  }
-
-  .moviment-table tr.credit td:nth-child(4) {
-    color: var(--color-success);
-  }
-
-  .moviment-table tr.debit td:nth-child(4) {
-    color: var(--color-danger);
   }
 </style>

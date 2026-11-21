@@ -1,4 +1,3 @@
-export { categoryByPeriod, extractByPeriod } from './services'
 export type {
   CategoryMovimentItem,
   CategoryMoviments,

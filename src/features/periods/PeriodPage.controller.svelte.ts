@@ -7,8 +7,8 @@ import { get } from 'svelte/store'
 import { _ } from 'svelte-i18n'
 import { toast } from 'svelte-sonner'
 import type { Period } from './Period'
+import { periodApi } from './period.api'
 import { periodsQueryOptions } from './period.query'
-import { periodClose } from './services'
 
 const createPeriodController = () => {
   const periodQuery = createQuery(() => ({
@@ -91,7 +91,8 @@ const createPeriodController = () => {
 
             // Executa o fechamento do mês.
             // await closePeriod(row)
-            periodClose()
+            periodApi
+              .close()
               .then((response) => {
                 if (response.id > row.id) {
                   toast.success('Período fechado com sucesso')

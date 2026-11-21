@@ -13,6 +13,11 @@ interface Period {
   error?: string
 }
 
+type PeriodOptions = {
+  value: number
+  label: string
+}
+
 type PeriodPayload = Omit<Period, 'id'>
 
-export type { Period, PeriodPayload, PeriodSimple }
+export type { Period, PeriodOptions, PeriodPayload, PeriodSimple }
